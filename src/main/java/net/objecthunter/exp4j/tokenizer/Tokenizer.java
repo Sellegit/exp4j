@@ -88,7 +88,7 @@ public class Tokenizer {
             return parseParentheses(false);
         } else if (Operator.isAllowedOperatorChar(ch)) {
             return parseOperatorToken(ch);
-        } else if (isAlphabetic(ch) || ch == '_') {
+        } else if (isAlphabetic(ch) || ch == '_' || ch == '$') {
             // parse the name which can be a setVariable or a function
             if (lastToken != null &&
                     (lastToken.getType() != Token.TOKEN_OPERATOR
@@ -144,7 +144,9 @@ public class Tokenizer {
         while (!isEndOfExpression(offset + len - 1) &&
                 (isAlphabetic(expression[offset + len - 1]) ||
                         Character.isDigit(expression[offset + len - 1]) ||
-                        expression[offset + len - 1] == '_')) {
+                        expression[offset + len - 1] == '_' ||
+                        expression[offset + len - 1] == '$' ||
+                        expression[offset + len - 1] == '.')) {
             String name = new String(expression, offset, len);
             if (variableNames != null && variableNames.contains(name)) {
                 lastValidLen = len;
